@@ -1,6 +1,8 @@
 package com.damian.asignacion.asignador_tareas.service.impl;
 
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
+import com.damian.asignacion.asignador_tareas.persistencia.DAOs.PersonaDAO;
+import com.damian.asignacion.asignador_tareas.persistencia.repositories.interfaces.PersonaRepository;
 import com.damian.asignacion.asignador_tareas.service.interfaces.PersonaService;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,14 @@ import java.util.Optional;
 
 @Service
 public class PersonaServiceImpl implements PersonaService {
+    private final PersonaRepository personaRepository;
 
+    public PersonaServiceImpl( PersonaRepository personaRepository) {
+        this.personaRepository = personaRepository;
+    }
     @Override
     public Persona crear(Persona persona) {
-        return null;
+        return personaRepository.crear(persona);
     }
 
     @Override
