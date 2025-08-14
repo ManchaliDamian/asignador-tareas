@@ -48,4 +48,12 @@ public class PersonaRepositoryImpl implements PersonaRepository {
         List<PersonaJPADTO> listaRecuperada = personaDAO.findAll();
         return personaMapper.toDomainList(listaRecuperada);
     }
+
+    @Override
+    public Persona actualizar(Persona persona) {
+        if (persona.getId() == null) {
+            throw new IllegalArgumentException("No se puede actualizar una persona sin ID");
+        }
+        return personaMapper.toDomain(personaDAO.save(personaMapper.toJpa(persona)));
+    }
 }

@@ -46,6 +46,13 @@ public class PersonaServiceTest {
         assertEquals("Damian", personaRecuperada.get().getNombre());
         assertEquals(damian.getId(), personaRecuperada.get().getId());
     }
+    @Test
+    void actualiarNombreDePersona() {
+       damian.setNombre("Franco");
+       damian = personaService.actualizar(damian);
+
+       assertEquals("Franco", damian.getNombre());
+    }
 
     @Test
     void eliminarPersona() {

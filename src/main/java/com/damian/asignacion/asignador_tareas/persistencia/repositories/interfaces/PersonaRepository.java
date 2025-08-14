@@ -15,4 +15,6 @@ public interface PersonaRepository {
     void eliminarTodo();
 
     List<Persona> recuperarTodos();
+
+    Persona actualizar(Persona persona);
 }
