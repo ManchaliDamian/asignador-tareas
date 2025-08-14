@@ -8,4 +8,8 @@ public interface PersonaRepository {
     Persona crear(Persona persona);
 
     Optional<Persona> recuperar(Long personaId);
+
+    void eliminar(Long personaId);
+
+    void eliminarTodo();
 }

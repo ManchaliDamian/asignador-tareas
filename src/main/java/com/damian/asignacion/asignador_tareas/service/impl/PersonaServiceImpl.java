@@ -33,7 +33,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public void eliminar(Long personaId) {
-
+        this.personaRepository.eliminar(personaId);
     }
 
     @Override

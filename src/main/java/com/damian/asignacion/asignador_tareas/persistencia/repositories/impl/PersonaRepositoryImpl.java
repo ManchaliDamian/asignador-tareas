@@ -31,4 +31,14 @@ public class PersonaRepositoryImpl implements PersonaRepository {
         Optional<Persona> persona = personaDAO.findById(personaId).map(personaMapper::toDomain);
         return persona ;
     }
+
+    @Override
+    public void eliminar(Long personaId) {
+        personaDAO.deleteById(personaId);
+    }
+
+    @Override
+    public void eliminarTodo() {
+        personaDAO.deleteAll();
+    }
 }
