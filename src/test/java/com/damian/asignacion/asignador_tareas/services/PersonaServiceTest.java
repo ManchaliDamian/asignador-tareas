@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -21,8 +23,16 @@ public class PersonaServiceTest {
 
     }
     @Test
-    void crearUsuario() {
+    void crearPersona() {
         damian = personaService.crear(damian);
         assertEquals("Damian", damian.getNombre());
+    }
+    @Test
+    void recuperarPersona() {
+        damian = personaService.crear(damian);
+        Optional<Persona> personaRecuperada = personaService.recuperar(damian.getId());
+
+        assertEquals("Damian", personaRecuperada.get().getNombre());
+        assertEquals(damian.getId(), personaRecuperada.get().getId());
     }
 }

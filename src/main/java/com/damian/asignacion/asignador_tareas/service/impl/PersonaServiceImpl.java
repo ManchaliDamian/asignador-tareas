@@ -28,7 +28,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public Optional<Persona> recuperar(Long personaId) {
-        return Optional.empty();
+        return this.personaRepository.recuperar(personaId);
     }
 
     @Override

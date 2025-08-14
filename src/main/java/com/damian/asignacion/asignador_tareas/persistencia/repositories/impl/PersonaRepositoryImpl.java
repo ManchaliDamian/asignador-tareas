@@ -7,6 +7,8 @@ import com.damian.asignacion.asignador_tareas.persistencia.repositories.interfac
 import com.damian.asignacion.asignador_tareas.persistencia.repositories.mapper.PersonaMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class PersonaRepositoryImpl implements PersonaRepository {
     private PersonaDAO personaDAO;
@@ -22,5 +24,11 @@ public class PersonaRepositoryImpl implements PersonaRepository {
         PersonaJPADTO personaJpa = personaMapper.toJpa(persona);
         personaJpa = personaDAO.save(personaJpa);
         return personaMapper.toDomain(personaJpa);
+    }
+
+    @Override
+    public Optional<Persona> recuperar(Long personaId) {
+        Optional<Persona> persona = personaDAO.findById(personaId).map(personaMapper::toDomain);
+        return persona ;
     }
 }
