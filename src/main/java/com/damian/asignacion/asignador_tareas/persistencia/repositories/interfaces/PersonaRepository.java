@@ -2,6 +2,7 @@ package com.damian.asignacion.asignador_tareas.persistencia.repositories.interfa
 
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PersonaRepository {
@@ -12,4 +13,6 @@ public interface PersonaRepository {
     void eliminar(Long personaId);
 
     void eliminarTodo();
+
+    List<Persona> recuperarTodos();
 }

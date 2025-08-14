@@ -4,6 +4,8 @@ import com.damian.asignacion.asignador_tareas.modelo.Persona;
 import com.damian.asignacion.asignador_tareas.persistencia.DTOs.PersonaJPADTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PersonaMapperImpl implements PersonaMapper{
     @Override
@@ -20,5 +22,10 @@ public class PersonaMapperImpl implements PersonaMapper{
         personaJPADTO.setId(persona.getId());
         personaJPADTO.setFueAsignado(persona.isFueAsignado());
         return personaJPADTO;
+    }
+
+    @Override
+    public List<Persona> toDomainList(List<PersonaJPADTO> listaJPA) {
+        return listaJPA.stream().map(e -> toDomain(e)).toList();
     }
 }

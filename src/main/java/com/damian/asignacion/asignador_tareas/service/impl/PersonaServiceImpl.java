@@ -38,6 +38,6 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public List<Persona> recuperarTodos() {
-        return List.of();
+        return personaRepository.recuperarTodos();
     }
 }

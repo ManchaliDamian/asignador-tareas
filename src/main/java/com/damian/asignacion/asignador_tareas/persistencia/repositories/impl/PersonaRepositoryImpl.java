@@ -7,6 +7,7 @@ import com.damian.asignacion.asignador_tareas.persistencia.repositories.interfac
 import com.damian.asignacion.asignador_tareas.persistencia.repositories.mapper.PersonaMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -40,5 +41,11 @@ public class PersonaRepositoryImpl implements PersonaRepository {
     @Override
     public void eliminarTodo() {
         personaDAO.deleteAll();
+    }
+
+    @Override
+    public List<Persona> recuperarTodos() {
+        List<PersonaJPADTO> listaRecuperada = personaDAO.findAll();
+        return personaMapper.toDomainList(listaRecuperada);
     }
 }
