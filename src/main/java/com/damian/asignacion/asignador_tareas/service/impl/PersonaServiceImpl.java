@@ -1,7 +1,6 @@
 package com.damian.asignacion.asignador_tareas.service.impl;
 
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
-import com.damian.asignacion.asignador_tareas.persistencia.DAOs.PersonaDAO;
 import com.damian.asignacion.asignador_tareas.persistencia.repositories.interfaces.PersonaRepository;
 import com.damian.asignacion.asignador_tareas.service.interfaces.PersonaService;
 import org.springframework.stereotype.Service;
@@ -39,5 +38,22 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public List<Persona> recuperarTodos() {
         return personaRepository.recuperarTodos();
+    }
+
+    @Override
+    public List<Persona> asignarGrupo() {
+        List<Persona> asignados = personaRepository.asignarGrupoDeDos();
+        if (asignados.size() < 2) {
+            personaRepository.resetearAsignaciones();
+            asignados = personaRepository.asignarGrupoDeDos();
+        }
+        // Solo trae la lista de dos personas para asignar. Faltaría el caso de que se setee en True si fueron asignados
+        return asignados ;
+    }
+
+    @Override
+    public void resetearAsignaciones() {
+        // puede ser que haya un botón donde resetee todas las asignaciones
+        personaRepository.resetearAsignaciones();
     }
 }

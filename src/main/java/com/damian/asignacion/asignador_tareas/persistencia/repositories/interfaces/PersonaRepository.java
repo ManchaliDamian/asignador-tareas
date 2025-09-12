@@ -17,4 +17,8 @@ public interface PersonaRepository {
     List<Persona> recuperarTodos();
 
     Persona actualizar(Persona persona);
+
+    List<Persona> asignarGrupoDeDos();
+
+    void resetearAsignaciones();
 }

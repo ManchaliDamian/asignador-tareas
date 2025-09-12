@@ -7,18 +7,22 @@ import lombok.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode
 @Entity
-@Table(name = "persona")
+@Table(
+        name = "persona",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"nombre", "apellido"})
+        }
+)
 public class PersonaJPADTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombre;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String apellido;
     @Column(nullable = false)
     private boolean fueAsignado;
@@ -26,6 +30,7 @@ public class PersonaJPADTO {
     public PersonaJPADTO(String nombre, String apellido) {
         this.nombre = nombre;
         this.apellido = apellido;
+        this.fueAsignado = false;
 
     }
 }

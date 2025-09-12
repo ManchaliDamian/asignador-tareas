@@ -56,4 +56,15 @@ public class PersonaRepositoryImpl implements PersonaRepository {
         }
         return personaMapper.toDomain(personaDAO.save(personaMapper.toJpa(persona)));
     }
+
+    @Override
+    public List<Persona> asignarGrupoDeDos() {
+        List<Persona> personasAsignadas = personaMapper.toDomainList(personaDAO.asignarDosPersonas());
+        return personasAsignadas;
+    }
+
+    @Override
+    public void resetearAsignaciones() {
+        personaDAO.resetAsignaciones();
+    }
 }
