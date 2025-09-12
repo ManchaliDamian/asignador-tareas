@@ -48,12 +48,14 @@ public class PersonaServiceImpl implements PersonaService {
             asignados = personaRepository.asignarGrupoDeDos();
         }
         // Solo trae la lista de dos personas para asignar. Faltaría el caso de que se setee en True si fueron asignados
+        // Faltaría testear este caso
         return asignados ;
     }
 
     @Override
     public void resetearAsignaciones() {
         // puede ser que haya un botón donde resetee todas las asignaciones
+        // faltaria testear este caso
         personaRepository.resetearAsignaciones();
     }
 }

@@ -12,8 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class PersonaServiceTest {
@@ -65,6 +64,40 @@ public class PersonaServiceTest {
     void recuperarTodosPersonas() {
         List<Persona> lista = personaService.recuperarTodos();
         assertEquals(3, lista.size());
+    }
+    @Test
+    void grupoParaAsignar() {
+        List<Persona> personas = personaService.asignarGrupo();
+        assertEquals(2, personas.size());
+    }
+    @Test
+    void asignarSinCantidadValidaDePersonas() {
+        damian.setFueAsignado(true);
+        flavia.setFueAsignado(true);
+        roberto.setFueAsignado(true);
+        personaService.actualizar(damian);
+        personaService.actualizar(flavia);
+        personaService.actualizar(roberto);
+        List<Persona> personas = personaService.asignarGrupo();
+        assertEquals(2, personas.size());
+    }
+    @Test
+    void resetearTodasLasAsignacionesTest() {
+        damian.setFueAsignado(true);
+        flavia.setFueAsignado(true);
+        roberto.setFueAsignado(true);
+        damian = personaService.actualizar(damian);
+        flavia = personaService.actualizar(flavia);
+        roberto = personaService.actualizar(roberto);
+        personaService.resetearAsignaciones();
+
+        Optional<Persona> dami = personaService.recuperar(damian.getId());
+        Optional<Persona> fla = personaService.recuperar(flavia.getId());
+        Optional<Persona> rob = personaService.recuperar(roberto.getId());
+
+        assertFalse(dami.get().isFueAsignado());
+        assertFalse(fla.get().isFueAsignado());
+        assertFalse(rob.get().isFueAsignado());
     }
     @AfterEach
     void cleanUp() {
