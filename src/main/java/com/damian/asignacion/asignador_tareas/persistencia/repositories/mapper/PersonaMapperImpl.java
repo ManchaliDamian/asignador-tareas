@@ -28,4 +28,9 @@ public class PersonaMapperImpl implements PersonaMapper{
     public List<Persona> toDomainList(List<PersonaJPADTO> listaJPA) {
         return listaJPA.stream().map(e -> toDomain(e)).toList();
     }
+
+    @Override
+    public List<PersonaJPADTO> toJPAList(List<Persona> listaPersona) {
+        return listaPersona.stream().map(e -> toJpa(e)).toList();
+    }
 }

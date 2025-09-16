@@ -67,7 +67,7 @@ public class PersonaServiceTest {
     }
     @Test
     void grupoParaAsignar() {
-        List<Persona> personas = personaService.asignarGrupo();
+        List<Persona> personas = personaService.asignarGrupoTentativo();
         assertEquals(2, personas.size());
     }
     @Test
@@ -78,7 +78,7 @@ public class PersonaServiceTest {
         personaService.actualizar(damian);
         personaService.actualizar(flavia);
         personaService.actualizar(roberto);
-        List<Persona> personas = personaService.asignarGrupo();
+        List<Persona> personas = personaService.asignarGrupoTentativo();
         assertEquals(2, personas.size());
     }
     @Test
@@ -99,6 +99,16 @@ public class PersonaServiceTest {
         assertFalse(fla.get().isFueAsignado());
         assertFalse(rob.get().isFueAsignado());
     }
+    @Test
+    void asignarGrupoTest() {
+
+        List<Persona> aAsignar = List.of(damian, flavia);
+        aAsignar = personaService.asignarGrupo(aAsignar);
+        assertEquals(2, aAsignar.size());
+        assertTrue(aAsignar.get(0).isFueAsignado());
+        assertTrue(aAsignar.get(1).isFueAsignado());
+    }
+
     @AfterEach
     void cleanUp() {
         dataService.eliminarTodo();

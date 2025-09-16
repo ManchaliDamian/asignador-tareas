@@ -21,4 +21,5 @@ public interface PersonaRepository {
     List<Persona> asignarGrupoDeDos();
 
     void resetearAsignaciones();
+    List<Persona> asignarGrupo(List<Persona> personas);
 }

@@ -1,5 +1,6 @@
 package com.damian.asignacion.asignador_tareas.persistencia.repositories.impl;
 
+import com.damian.asignacion.asignador_tareas.exception.PersonaNoEncontradaException;
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
 import com.damian.asignacion.asignador_tareas.persistencia.DAOs.PersonaDAO;
 import com.damian.asignacion.asignador_tareas.persistencia.DTOs.PersonaJPADTO;
@@ -29,6 +30,9 @@ public class PersonaRepositoryImpl implements PersonaRepository {
 
     @Override
     public Optional<Persona> recuperar(Long personaId) {
+        if (personaId == null) {
+            throw new PersonaNoEncontradaException(personaId);
+        }
         Optional<Persona> persona = personaDAO.findById(personaId).map(personaMapper::toDomain);
         return persona ;
     }
@@ -51,8 +55,10 @@ public class PersonaRepositoryImpl implements PersonaRepository {
 
     @Override
     public Persona actualizar(Persona persona) {
+        // Manejo de exceptions!!!
+
         if (persona.getId() == null) {
-            throw new IllegalArgumentException("No se puede actualizar una persona sin ID");
+            throw new PersonaNoEncontradaException(persona.getId());
         }
         return personaMapper.toDomain(personaDAO.save(personaMapper.toJpa(persona)));
     }
@@ -66,5 +72,24 @@ public class PersonaRepositoryImpl implements PersonaRepository {
     @Override
     public void resetearAsignaciones() {
         personaDAO.resetAsignaciones();
+    }
+
+    @Override
+    public List<Persona> asignarGrupo(List<Persona> personas) {
+        // acá podría venir las personas con el seteo ya establecido del controller
+        // la decisión por el momento es que se establezca en el back el seteo. luego veré si se puede hacer desde los datos enviados desde el front
+        // testear si llega una lista inválida si es menor o mayor a 2
+        // verificar que la lista no contenga personas que fueron asignadas
+        // lanzar error en esos casos
+        if (personas.size() < 2 && personas.size() > 2) {
+            throw new Error("Cantidad de personas a asignar inválida");
+        }
+        List<Persona> personasAsignadas = personas.stream().map(
+                p -> {
+                    p.setFueAsignado(true);
+                    return p;
+                }).toList();
+       personas = personasAsignadas.stream().map(e -> this.actualizar(e)).toList();
+       return personas;
     }
 }

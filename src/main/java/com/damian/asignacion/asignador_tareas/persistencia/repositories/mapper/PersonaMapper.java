@@ -10,4 +10,5 @@ public interface PersonaMapper {
     PersonaJPADTO toJpa(Persona persona);
 
     List<Persona> toDomainList(List<PersonaJPADTO> listaJPA);
+    List<PersonaJPADTO> toJPAList(List<Persona> listaPersona);
 }
