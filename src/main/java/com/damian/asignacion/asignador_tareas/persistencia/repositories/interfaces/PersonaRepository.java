@@ -1,17 +1,25 @@
-package com.damian.asignacion.asignador_tareas.service.interfaces;
+package com.damian.asignacion.asignador_tareas.persistencia.repositories.interfaces;
 
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface PersonaService {
+public interface PersonaRepository {
     Persona crear(Persona persona);
-    Persona actualizar(Persona persona);
+
     Optional<Persona> recuperar(Long personaId);
+
     void eliminar(Long personaId);
+
+    void eliminarTodo();
+
     List<Persona> recuperarTodos();
-    List<Persona> asignarGrupoTentativo();
+
+    Persona actualizar(Persona persona);
+
+    List<Persona> asignarGrupoDeDos();
+
     void resetearAsignaciones();
     List<Persona> asignarGrupo(List<Persona> personas);
 }

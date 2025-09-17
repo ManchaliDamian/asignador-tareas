@@ -2,9 +2,6 @@ package com.damian.asignacion.asignador_tareas.modelo;
 
 import lombok.*;
 
-import java.time.LocalDate;
-
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,7 +11,7 @@ public class Persona {
     private Long id;
     private String nombre;
     private String apellido;
-    private LocalDate fechaUltimaAsignacion;
+    private boolean fueAsignado;
 
     public Persona(String nombre, String apellido) {
         this.nombre = nombre;
