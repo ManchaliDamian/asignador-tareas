@@ -65,4 +65,5 @@ public class PersonaServiceImpl implements PersonaService {
         // aca podría venir las personas con el seteo ya establecido del controller??
         return personaRepository.asignarGrupo(persona);
     }
+
 }
