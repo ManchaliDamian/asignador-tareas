@@ -1,5 +1,6 @@
 package com.damian.asignacion.asignador_tareas.persistencia.repositories.impl;
 
+import com.damian.asignacion.asignador_tareas.exception.GrupoPersonasInvalidasException;
 import com.damian.asignacion.asignador_tareas.exception.PersonaNoEncontradaException;
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
 import com.damian.asignacion.asignador_tareas.persistencia.DAOs.PersonaDAO;
@@ -81,9 +82,11 @@ public class PersonaRepositoryImpl implements PersonaRepository {
         // testear si llega una lista inválida si es menor o mayor a 2
         // verificar que la lista no contenga personas que fueron asignadas
         // lanzar error en esos casos
-        if (personas.size() < 2 && personas.size() > 2) {
-            throw new Error("Cantidad de personas a asignar inválida");
+        boolean algunoAsignado = personas.stream().anyMatch(Persona::isFueAsignado);
+        if (personas.size() != 2 || algunoAsignado) {
+            throw new GrupoPersonasInvalidasException();
         }
+
         List<Persona> personasAsignadas = personas.stream().map(
                 p -> {
                     p.setFueAsignado(true);
