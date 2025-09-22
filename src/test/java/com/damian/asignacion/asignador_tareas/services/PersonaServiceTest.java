@@ -116,7 +116,7 @@ public class PersonaServiceTest {
         assertThrows(PersonaYaAsignadaException.class, () -> personaService.asignarGrupo(damianRecu.get().getId(), roberto.getId()));
     }
 
-    //@AfterEach
+    @AfterEach
     void cleanUp() {
         dataService.eliminarTodo();
     }
