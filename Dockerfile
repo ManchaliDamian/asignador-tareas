@@ -3,11 +3,17 @@ LABEL authors="damim"
 
 WORKDIR /app
 
-# Copiar el JAR generado por Gradle
-COPY build/libs/*.jar app.jar
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
 
-# Exponer puerto
+COPY src src
+
+RUN chmod +x ./gradlew
+
+RUN ./gradlew build -x test
+
 EXPOSE 8080
 
-# Ejecutar aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "build/libs/*.jar"]
