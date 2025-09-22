@@ -61,9 +61,10 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public List<Persona> asignarGrupo(List<Persona> persona) {
+    public List<Persona> asignarGrupo(Long id1, Long id2) {
         // aca podría venir las personas con el seteo ya establecido del controller??
-        return personaRepository.asignarGrupo(persona);
+        // o los dos ID de cada persona para asignarlo directamente
+        return personaRepository.asignarGrupo(id1, id2);
     }
 
 }

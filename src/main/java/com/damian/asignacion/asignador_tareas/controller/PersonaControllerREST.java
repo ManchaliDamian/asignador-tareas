@@ -68,4 +68,9 @@ public final class PersonaControllerREST {
         List<PersonaDTO> grupo = grupoT.stream().map(PersonaDTO::desdeModelo).toList();
         return ResponseEntity.ok(grupo);
     }
+    @PostMapping("/{id1}/asignar/{id2}")
+    public ResponseEntity<List<PersonaDTO>> asignarGrupo(@PathVariable Long id1, @PathVariable Long id2) {
+        List<Persona> personasAsignadas = personaService.asignarGrupo(id1, id2);
+        return ResponseEntity.ok(personasAsignadas.stream().map(persona -> PersonaDTO.desdeModelo(persona)).toList());
+    }
 }

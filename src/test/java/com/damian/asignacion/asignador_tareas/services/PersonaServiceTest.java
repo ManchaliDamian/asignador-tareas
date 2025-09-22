@@ -1,10 +1,9 @@
 package com.damian.asignacion.asignador_tareas.services;
 
-import com.damian.asignacion.asignador_tareas.exception.GrupoPersonasInvalidasException;
+import com.damian.asignacion.asignador_tareas.exception.PersonaYaAsignadaException;
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
 import com.damian.asignacion.asignador_tareas.service.interfaces.DataService;
 import com.damian.asignacion.asignador_tareas.service.interfaces.PersonaService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,30 +102,20 @@ public class PersonaServiceTest {
     @Test
     void asignarGrupoTest() {
 
-        List<Persona> aAsignar = List.of(damian, flavia);
-        aAsignar = personaService.asignarGrupo(aAsignar);
+        List<Persona> aAsignar = personaService.asignarGrupo(damian.getId(), flavia.getId());
         assertEquals(2, aAsignar.size());
         assertTrue(aAsignar.get(0).isFueAsignado());
         assertTrue(aAsignar.get(1).isFueAsignado());
     }
     @Test
-    void asignarGrupoMenorA2Test() {
-
-        List<Persona> aAsignar = List.of(damian);
-
-        assertThrows(GrupoPersonasInvalidasException.class, () -> personaService.asignarGrupo(aAsignar));
-    }
-    @Test
     void asignarGrupoConUnoQueYaFueAsignadoTest() {
 
-        List<Persona> aAsignar = List.of(damian, flavia);
-        aAsignar = personaService.asignarGrupo(aAsignar);
+        List<Persona> aAsignar = personaService.asignarGrupo(damian.getId(), flavia.getId());
         Optional<Persona> damianRecu = personaService.recuperar(damian.getId());
-        List<Persona> aAsignar2 = List.of(damianRecu.get(), roberto);
-        assertThrows(GrupoPersonasInvalidasException.class, () -> personaService.asignarGrupo(aAsignar2));
+        assertThrows(PersonaYaAsignadaException.class, () -> personaService.asignarGrupo(damianRecu.get().getId(), roberto.getId()));
     }
 
-    @AfterEach
+    //@AfterEach
     void cleanUp() {
         dataService.eliminarTodo();
     }

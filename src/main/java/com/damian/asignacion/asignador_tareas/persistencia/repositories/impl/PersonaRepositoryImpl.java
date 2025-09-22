@@ -1,6 +1,6 @@
 package com.damian.asignacion.asignador_tareas.persistencia.repositories.impl;
 
-import com.damian.asignacion.asignador_tareas.exception.GrupoPersonasInvalidasException;
+import com.damian.asignacion.asignador_tareas.exception.PersonaYaAsignadaException;
 import com.damian.asignacion.asignador_tareas.exception.PersonaNoEncontradaException;
 import com.damian.asignacion.asignador_tareas.modelo.Persona;
 import com.damian.asignacion.asignador_tareas.persistencia.DAOs.PersonaDAO;
@@ -76,23 +76,35 @@ public class PersonaRepositoryImpl implements PersonaRepository {
     }
 
     @Override
-    public List<Persona> asignarGrupo(List<Persona> personas) {
+    public List<Persona> asignarGrupo(Long id1, Long id2) {
         // acá podría venir las personas con el seteo ya establecido del controller
         // la decisión por el momento es que se establezca en el back el seteo. luego veré si se puede hacer desde los datos enviados desde el front
         // testear si llega una lista inválida si es menor o mayor a 2
         // verificar que la lista no contenga personas que fueron asignadas
         // lanzar error en esos casos
-        boolean algunoAsignado = personas.stream().anyMatch(Persona::isFueAsignado);
-        if (personas.size() != 2 || algunoAsignado) {
-            throw new GrupoPersonasInvalidasException();
-        }
 
-        List<Persona> personasAsignadas = personas.stream().map(
-                p -> {
-                    p.setFueAsignado(true);
-                    return p;
-                }).toList();
-       personas = personasAsignadas.stream().map(e -> this.actualizar(e)).toList();
-       return personas;
+
+
+        // buscar cada persona, verificar si existe sino dar error
+        // preguntar si fueron asignadas cada persona, si es asi dar error
+        // asignar cada persona
+        Optional<Persona> p1 = personaDAO.findById(id1).map(personaMapper::toDomain);
+        Optional<Persona> p2 = personaDAO.findById(id2).map(personaMapper::toDomain);
+        if (p1.isEmpty()) {
+            throw new PersonaNoEncontradaException(id1);
+        }
+        if (p2.isEmpty()) {
+            throw new PersonaNoEncontradaException(id2);
+        }
+        if (p1.get().isFueAsignado() || p2.get().isFueAsignado()) {
+            throw new PersonaYaAsignadaException();
+        }
+        p1.get().setFueAsignado(true);
+        p2.get().setFueAsignado(true);
+        this.actualizar(p1.get());
+        this.actualizar(p2.get());
+
+        List<Persona> personasAsignadas = List.of(p1.get(),p2.get());
+       return personasAsignadas;
     }
 }

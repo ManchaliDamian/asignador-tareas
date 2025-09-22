@@ -13,5 +13,5 @@ public interface PersonaService {
     List<Persona> recuperarTodos();
     List<Persona> asignarGrupoTentativo();
     void resetearAsignaciones();
-    List<Persona> asignarGrupo(List<Persona> personas);
+    List<Persona> asignarGrupo(Long id1, Long id2);
 }
